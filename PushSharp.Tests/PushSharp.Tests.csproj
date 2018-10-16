@@ -48,19 +48,13 @@
     <Compile Include="BrokerTests.cs" />
     <Compile Include="ApnsRealTest.cs" />
     <Compile Include="WnsRealTests.cs" />
-    <Compile Include="ApnsHttp2RealTests.cs" />
     <Compile Include="GcmTests.cs" />
-    <Compile Include="ApnsHttp2RealTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\PushSharp.Core\PushSharp.Core.csproj">
       <Project>{2B44A8DA-60BC-4577-A2D7-D9D53F164B2E}</Project>
       <Name>PushSharp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PushSharp.Apple\PushSharp.Apple.csproj">
-      <Project>{A9D99F80-FEEB-4E74-96C5-66F17103C773}</Project>
-      <Name>PushSharp.Apple</Name>
     </ProjectReference>
     <ProjectReference Include="..\PushSharp.Amazon\PushSharp.Amazon.csproj">
       <Project>{2468C63B-C964-4FC3-9B16-13DC17CF7D11}</Project>

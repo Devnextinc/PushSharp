@@ -115,11 +115,7 @@ namespace PushSharp.Apple
                     }
 
                     // Expired
-                    throw new PushSharp.Core.DeviceSubscriptonExpiredException {
-                        OldSubscriptionId = notification.DeviceToken,
-                        NewSubscriptionId = null,
-                        ExpiredAt = timestamp
-                    };
+                    throw new PushSharp.Core.DeviceSubscriptionExpiredException(notification);
                 }
 
                 // Get the reason

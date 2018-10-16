@@ -1,0 +1,437 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HttpTwo.HPack</name>
+    </assembly>
+    <members>
+        <member name="M:HttpTwo.HPack.Decoder.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="!:hpack.Decoder"/> class.
+            </summary>
+            <param name="maxHeaderSize">Max header size.</param>
+            <param name="maxHeaderTableSize">Max header table size.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.Decode(System.IO.BinaryReader,HttpTwo.HPack.AddHeaderDelegate)">
+            <summary>
+            Decode the header block into header fields.
+            </summary>
+            <param name="input">Input.</param>
+            <param name="headerListener">Header listener.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.EndHeaderBlock">
+            <summary>
+            End the current header block. Returns if the header field has been truncated.
+            This must be called after the header block has been completely decoded.
+            </summary>
+            <returns><c>true</c>, if header block was ended, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.SetMaxHeaderTableSize(System.Int32)">
+            <summary>
+            Set the maximum table size.
+            If this is below the maximum size of the dynamic table used by the encoder,
+            the beginning of the next header block MUST signal this change.
+            </summary>
+            <param name="maxHeaderTableSize">Max header table size.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.GetMaxHeaderTableSize">
+            <summary>
+            Return the maximum table size.
+            This is the maximum size allowed by both the encoder and the decoder.
+            </summary>
+            <returns>The max header table size.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.Length">
+            <summary>
+            Return the number of header fields in the dynamic table.
+            Exposed for testing.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.Size">
+            <summary>
+            Return the size of the dynamic table.
+            Exposed for testing.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Decoder.GetHeaderField(System.Int32)">
+            <summary>
+            Return the header field at the given index.
+            Exposed for testing.
+            </summary>
+            <returns>The header field.</returns>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.#ctor(System.Int32)">
+            <summary>
+            Creates a new dynamic table with the specified initial capacity.
+            </summary>
+            <param name="initialCapacity">Initial capacity.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.Length">
+            <summary>
+            Return the number of header fields in the dynamic table.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.GetSize">
+            <summary>
+            Return the current size of the dynamic table.
+            This is the sum of the size of the entries.
+            </summary>
+            <returns>The size.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.GetCapacity">
+            <summary>
+            Return the maximum allowable size of the dynamic table.
+            </summary>
+            <returns>The capacity.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.GetEntry(System.Int32)">
+            <summary>
+            Return the header field at the given index.
+            The first and newest entry is always at index 1,
+            and the oldest entry is at the index length().
+            </summary>
+            <returns>The entry.</returns>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.Add(HttpTwo.HPack.HeaderField)">
+            <summary>
+            Add the header field to the dynamic table.
+            Entries are evicted from the dynamic table until the size of the table
+            and the new header field is less than or equal to the table's capacity.
+            If the size of the new entry is larger than the table's capacity,
+            the dynamic table will be cleared.
+            </summary>
+            <param name="header">Header.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.Remove">
+            <summary>
+            Remove and return the oldest header field from the dynamic table.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.Clear">
+            <summary>
+            Remove all entries from the dynamic table.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.DynamicTable.SetCapacity(System.Int32)">
+            <summary>
+            Set the maximum size of the dynamic table.
+            Entries are evicted from the dynamic table until the size of the table
+            is less than or equal to the maximum size.
+            </summary>
+            <param name="capacity">Capacity.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="!:hpack.Encoder"/> class.
+            </summary>
+            <param name="maxHeaderTableSize">Max header table size.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.#ctor(System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="!:hpack.Encoder"/> class.
+            for testing only.
+            </summary>
+            <param name="maxHeaderTableSize">Max header table size.</param>
+            <param name="useIndexing">If set to <c>true</c> use indexing.</param>
+            <param name="forceHuffmanOn">If set to <c>true</c> force huffman on.</param>
+            <param name="forceHuffmanOff">If set to <c>true</c> force huffman off.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.EncodeHeader(System.IO.BinaryWriter,System.Byte[],System.Byte[],System.Boolean)">
+            <summary>
+            Encode the header field into the header block.
+            </summary>
+            <param name="output">Output.</param>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+            <param name="sensitive">If set to <c>true</c> sensitive.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.SetMaxHeaderTableSize(System.IO.BinaryWriter,System.Int32)">
+            <summary>
+            Set the maximum table size.
+            </summary>
+            <param name="output">Output.</param>
+            <param name="maxHeaderTableSize">Max header table size.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetMaxHeaderTableSize">
+            <summary>
+            Return the maximum table size.
+            </summary>
+            <returns>The max header table size.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.EncodeInteger(System.IO.BinaryWriter,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Encode integer according to Section 5.1.
+            </summary>
+            <param name="output">Output.</param>
+            <param name="mask">Mask.</param>
+            <param name="n">N.</param>
+            <param name="i">The index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.EncodeStringLiteral(System.IO.BinaryWriter,System.Byte[])">
+            <summary>
+            Encode string literal according to Section 5.2.
+            </summary>
+            <param name="output">Output.</param>
+            <param name="stringLiteral">String literal.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.EncodeLiteral(System.IO.BinaryWriter,System.Byte[],System.Byte[],HttpTwo.HPack.HPackUtil.IndexType,System.Int32)">
+            <summary>
+            Encode literal header field according to Section 6.2.
+            </summary>
+            <param name="output">Output.</param>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+            <param name="indexType">Index type.</param>
+            <param name="nameIndex">Name index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.EnsureCapacity(System.Int32)">
+            <summary>
+            Ensure that the dynamic table has enough room to hold 'headerSize' more bytes.
+            Removes the oldest entry from the dynamic table until sufficient space is available.
+            </summary>
+            <param name="headerSize">Header size.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Length">
+            <summary>
+            Return the number of header fields in the dynamic table.
+            Exposed for testing.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetSize">
+            <summary>
+            Return the size of the dynamic table.
+            Exposed for testing.
+            </summary>
+            <returns>The size.</returns>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetHeaderField(System.Int32)">
+            <summary>
+            Return the header field at the given index.
+            Exposed for testing.
+            </summary>
+            <returns>The header field.</returns>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetEntry(System.Byte[],System.Byte[])">
+            <summary>
+            Returns the header entry with the lowest index value for the header field.
+            Returns null if header field is not in the dynamic table.
+            </summary>
+            <returns>The entry.</returns>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetIndex(System.Byte[])">
+            <summary>
+            Returns the lowest index value for the header field name in the dynamic table.
+            Returns -1 if the header field name is not in the dynamic table.
+            </summary>
+            <returns>The index.</returns>
+            <param name="name">Name.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.GetIndex(System.Int32)">
+            <summary>
+            Compute the index into the dynamic table given the index in the header entry.
+            </summary>
+            <returns>The index.</returns>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Add(System.Byte[],System.Byte[])">
+            <summary>
+            Add the header field to the dynamic table.
+            Entries are evicted from the dynamic table until the size of the table
+            and the new header field is less than the table's capacity.
+            If the size of the new entry is larger than the table's capacity,
+            the dynamic table will be cleared.
+            </summary>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Remove">
+            <summary>
+            Remove and return the oldest header field from the dynamic table.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Clear">
+            <summary>
+            Remove all entries from the dynamic table.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Hash(System.Byte[])">
+            <summary>
+            Returns the hash code for the given header field name.
+            </summary>
+            <returns><c>true</c> if hash name; otherwise, <c>false</c>.</returns>
+            <param name="name">Name.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.Index(System.Int32)">
+            <summary>
+            Returns the index into the hash table for the hash code h.
+            </summary>
+            <param name="h">The height.</param>
+        </member>
+        <member name="T:HttpTwo.HPack.Encoder.HeaderEntry">
+            <summary>
+            A linked hash map HeaderField entry.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.HeaderEntry.#ctor(System.Int32,System.Byte[],System.Byte[],System.Int32,HttpTwo.HPack.Encoder.HeaderEntry)">
+            <summary>
+            Creates new entry.
+            </summary>
+            <param name="hash">Hash.</param>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+            <param name="index">Index.</param>
+            <param name="next">Next.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.HeaderEntry.Remove">
+            <summary>
+            Removes this entry from the linked list.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.Encoder.HeaderEntry.AddBefore(HttpTwo.HPack.Encoder.HeaderEntry)">
+            <summary>
+            Inserts this entry before the specified existing entry in the list.
+            </summary>
+            <param name="existingEntry">Existing entry.</param>
+        </member>
+        <member name="T:HttpTwo.HPack.AddHeaderDelegate">
+            <summary>
+            EmitHeader is called by the decoder during header field emission.
+            The name and value byte arrays must not be modified.
+            </summary>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+            <param name="sensitive">If set to <c>true</c> sensitive.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.HPackUtil.Equals(System.Byte[],System.Byte[])">
+            <summary>
+            A string compare that doesn't leak timing information.
+            </summary>
+            <param name="s1">S1.</param>
+            <param name="s2">S2.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.HPackUtil.RequireNonNull(System.Object)">
+            <summary>
+            Checks that the specified object reference is not {@code null}.
+            </summary>
+            <returns>The non null.</returns>
+            <param name="obj">Object.</param>
+        </member>
+        <member name="F:HttpTwo.HPack.Huffman.DECODER">
+            <summary>
+            Huffman Decoder
+            </summary>
+        </member>
+        <member name="F:HttpTwo.HPack.Huffman.ENCODER">
+            <summary>
+            Huffman Encoder
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanDecoder.#ctor(System.Int32[],System.Byte[])">
+            <summary>
+            Creates a new Huffman decoder with the specified Huffman coding.
+            </summary>
+            <param name="codes">the Huffman codes indexed by symbol</param>
+            <param name="lengths">the length of each Huffman code</param>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanDecoder.Decode(System.Byte[])">
+            <summary>
+            Decompresses the given Huffman coded string literal.
+            </summary>
+            <param name="buf">the string literal to be decoded</param>
+            <returns>the output stream for the compressed data</returns>
+            <exception cref="T:System.IO.IOException">throws IOException if an I/O error occurs. In particular, an <code>IOException</code> may be thrown if the output stream has been closed.</exception>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanDecoder.Node.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="!:hpack.HuffmanDecoder+Node"/> class.
+            </summary>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanDecoder.Node.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="!:hpack.HuffmanDecoder+Node"/> class.
+            </summary>
+            <param name="symbol">the symbol the node represents</param>
+            <param name="bits">the number of bits matched by this node</param>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanEncoder.#ctor(System.Int32[],System.Byte[])">
+            <summary>
+            Creates a new Huffman encoder with the specified Huffman coding.
+            </summary>
+            <param name="codes">the Huffman codes indexed by symbol</param>
+            <param name="lengths">the length of each Huffman code</param>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanEncoder.Encode(System.IO.BinaryWriter,System.Byte[])">
+            <summary>
+            Compresses the input string literal using the Huffman coding.
+            </summary>
+            <param name="output">the output stream for the compressed data</param>
+            <param name="data">the string literal to be Huffman encoded</param>
+            <exception cref="T:System.IO.IOException">if an I/O error occurs.</exception>
+            <see cref="!:com.twitter.hpack.HuffmanEncoder#encode(OutputStream, byte[], int, int)"/>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanEncoder.Encode(System.IO.BinaryWriter,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Compresses the input string literal using the Huffman coding.
+            </summary>
+            <param name="output">the output stream for the compressed data</param>
+            <param name="data">the string literal to be Huffman encoded</param>
+            <param name="off">the start offset in the data</param>
+            <param name="len">the number of bytes to encode</param>
+            <exception cref="T:System.IO.IOException">if an I/O error occurs. In particular, an <code>IOException</code> may be thrown if the output stream has been closed.</exception>
+        </member>
+        <member name="M:HttpTwo.HPack.HuffmanEncoder.GetEncodedLength(System.Byte[])">
+            <summary>
+            Returns the number of bytes required to Huffman encode the input string literal.
+            </summary>
+            <returns>the number of bytes required to Huffman encode <code>data</code></returns>
+            <param name="data">the string literal to be Huffman encoded</param>
+        </member>
+        <member name="F:HttpTwo.HPack.StaticTable.STATIC_TABLE">
+            <summary>
+            The static table
+            Appendix A: Static Table
+            </summary>
+            <see cref="!:http://tools.ietf.org/html/rfc7541#appendix-A"/>
+        </member>
+        <member name="P:HttpTwo.HPack.StaticTable.Length">
+            <summary>
+            The number of header fields in the static table.
+            </summary>
+            <value>The length.</value>
+        </member>
+        <member name="M:HttpTwo.HPack.StaticTable.GetEntry(System.Int32)">
+            <summary>
+            Return the header field at the given index value.
+            </summary>
+            <returns>The entry.</returns>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.StaticTable.GetIndex(System.Byte[])">
+            <summary>
+            Returns the lowest index value for the given header field name in the static table.
+            Returns -1 if the header field name is not in the static table.
+            </summary>
+            <returns>The index.</returns>
+            <param name="name">Name.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.StaticTable.GetIndex(System.Byte[],System.Byte[])">
+            <summary>
+            Returns the index value for the given header field in the static table.
+            Returns -1 if the header field is not in the static table.
+            </summary>
+            <returns>The index.</returns>
+            <param name="name">Name.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:HttpTwo.HPack.StaticTable.CreateMap">
+            <summary>
+            create a map of header name to index value to allow quick lookup
+            </summary>
+            <returns>The map.</returns>
+        </member>
+    </members>
+</doc>

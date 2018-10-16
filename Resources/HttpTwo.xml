@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HttpTwo</name>
+    </assembly>
+    <members>
+        <member name="F:HttpTwo.ErrorCode.NoError">
+            <summary>
+            The associated condition is not a result of an error. For example, a GOAWAY might include this code to indicate graceful shutdown of a connection.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.ProtocolError">
+            <summary>
+            The endpoint detected an unspecific protocol error. This error is for use when a more specific error code is not available.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.InternalError">
+            <summary>
+            The endpoint encountered an unexpected internal error.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.FlowControlError">
+            <summary>
+            The endpoint detected that its peer violated the flow-control protocol.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.SettingsTimeout">
+            <summary>
+            The endpoint sent a SETTINGS frame but did not receive a response in a timely manner.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.StreamClosed">
+            <summary>
+            The endpoint received a frame after a stream was half-closed.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.FrameSizeError">
+            <summary>
+            The endpoint received a frame with an invalid size.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.RefusedStream">
+            <summary>
+            The endpoint refused the stream prior to performing any application processing
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.Cancel">
+            <summary>
+            Used by the endpoint to indicate that the stream is no longer needed.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.CompressionError">
+            <summary>
+            The endpoint is unable to maintain the header compression context for the connection.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.ConnectError">
+            <summary>
+            The connection established in response to a CONNECT request was reset or abnormally closed.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.EnhanceYourCalm">
+            <summary>
+            The endpoint detected that its peer is exhibiting a behavior that might be generating excessive load.
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.InadequateSecurity">
+            <summary>
+            The underlying transport has properties that do not meet minimum security requirements
+            </summary>
+        </member>
+        <member name="F:HttpTwo.ErrorCode.Http11Required">
+            <summary>
+            The endpoint requires that HTTP/1.1 be used instead of HTTP/2.
+            </summary>
+        </member>
+    </members>
+</doc>
